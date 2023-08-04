@@ -20,3 +20,5 @@ Prior to program initialization, several steps are needed:
 3) npm install imap mailparser
 
 To run: node index.js
+
+Note: indexTemplate.js contains the index.js found in the Next Academy LMS (prior to any edits).
