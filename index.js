@@ -3,13 +3,44 @@ const { simpleParser } = require('mailparser');
 const nodemailer = require('nodemailer')
 require('dotenv').config()
 
-const AUTO_REPLY_ADDRESS = 'example@example.com'
+const AUTO_REPLY_ADDRESS = "harrisidzwan2@gmail.com"
 
 function sendEmail(recipientEmails = [], subject, body) {
   console.log(`Auto replying to ${recipientEmails}`)
   // for you to implement
-}
 
+  //SMTP Transport - Single Connection
+  let transporter = nodemailer.createTransport({
+    host: "imap.gmail.com",
+    port: 587,
+    secure: false, 
+    auth: {
+      user: process.env.GMAIL_USER,
+      pass: process.env.GMAIL_PASSWORD,
+    },
+    tls: {
+        // do not fail on invalid certs
+        rejectUnauthorized: false,
+      },
+  });
+
+  //Message Configuration
+  var message = {
+    from: process.env.GMAIL_USER,
+    to: "harrisidzwan2@gmail.com",
+    subject: `Re: ${subject}`,
+    text: body
+  };
+
+  //Verify SMTP connection configuration
+  transporter.sendMail(message, function(error, info){
+    if (error) {
+      console.log(error);
+    } else {
+      console.log("Server is ready to take our messages");
+    }
+  })
+}
 
 function manageInbox() {
   const imap = new Imap({
